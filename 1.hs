@@ -1,7 +1,4 @@
-{-# OPTIONS_GHC -Wno-incomplete-patterns #-}
-
----Advent of code day 1 solution in Haskell
-
+-- Advent of code day 1 solution in Haskell
 
 --Given data
 a :: [Integer]
@@ -19,17 +16,12 @@ createSums x n =
     if length x < 3 then n
     else
         let
-            a = head x
-            b = x !! 1
-            c = x !! 2
-            sum = a + b + c
+            nums = take 3 x
+            sum' = sum nums
         in
-            createSums (tail x) (sum : n)
-
-
--- Main for 1st part
--- main :: IO ()
--- main = print $ calculate a 0
+            createSums (tail x) (sum' : n)
 
 main :: IO ()
-main = print $ calculate (reverse $ createSums a []) 0
+main = do
+    print $ calculate a 0 -- First part of  the challenge
+    print $ calculate (reverse $ createSums a []) 0 --Second part of the challenge
