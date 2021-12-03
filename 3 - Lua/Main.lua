@@ -1,5 +1,4 @@
 -- Day 3 of Advent of Code.
--- At the time of writing I wasn't experienced with Lua, therefore the solutions is less than ideal
 
 function readFile(path)
    local f = io.open(path, "rb")
@@ -68,74 +67,48 @@ function findMostCommon(data, i)
 
 end
 
---Ugly solution
-function part2(data, data2)
+function part2(data)
+    local a = makeTable(data, 1, "1", false)
+    local b = makeTable(data, 1, "0", true)
 
-    a = makeTable(data, 1, "1")
-    b = makeTable2(data2, 1, "0")
-
-    -- print(a .. " " .. b)
-
-
+    return binaryToNum(a) * binaryToNum(b)
 end
 
--- for some reasion this recursions does not return the table even though the return part is called
-function makeTable(data, poz, deafault)
+function makeTable(data, poz, deafault, invert)
 
+    --Find the most common bit
     bit = findMostCommon(data, poz)
+
+    --if we're searching for opposite, invert the bit
+    if invert then
+        if bit == -1 then bit = deafault
+                elseif bit == 1 then bit = 0
+                else bit = 1 end 
+    end
+    
     if bit == -1 then bit = deafault end
 
     if #data == 1
         then
-            -- print( binaryToNum(data[1])) 
-            _G.first = data[1]
         return data[1] end
 
     newTable = {}
            
     for i = 1, #data do
-        if string.byte(data[i], poz) == string.byte(bit, 1)
+        if string.byte(data[i], poz) == string.byte(bit, 1) 
             then 
                 newTable[#newTable + 1] = data[i]
             else
                 end 
         end
-    makeTable(newTable, (poz + 1), deafault)
-end
-
---Not ideal solution
-function makeTable2(data, poz, deafault)
-
-
-   
-    bit = findMostCommon(data, poz)
-    if bit == -1 then bit = deafault
-    elseif bit == 1 then bit = 0
-    else bit = 1 end 
-    if #data == 1
-        then
-            -- print( binaryToNum(data[1])) 
-            _G.second = data[1]
-        return data end
-
-    newTable = {}
-           
-    for i = 1, #data do
-        if string.byte(data[i], poz) == string.byte(bit, 1)
-            then 
-                newTable[#newTable + 1] = data[i]
-            else end 
-    end
-    makeTable2(newTable, (poz + 1), deafault)
+    return makeTable(newTable, (poz + 1), deafault, invert)
 end
 
 
 function main()
     local data = readFile("input.txt")
     print(part1(data))
-    local data2 = readFile("input.txt")
-    part2(data, data2)
-    print("\n\n\n" .. binaryToNum(_G.first) * binaryToNum(_G.second))
+    print(part2(data))
 
 end
 
