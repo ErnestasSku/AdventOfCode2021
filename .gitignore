@@ -1,6 +1,11 @@
 *.exe
 *.o
 *.hi
+input.txt
 
 *.class
 *.user
+node_modules
+__pycache__
+
+.vscode
