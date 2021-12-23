@@ -7,5 +7,7 @@ input.txt
 *.user
 node_modules
 __pycache__
+null
+helper.py
 
 .vscode
